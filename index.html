@@ -106,10 +106,10 @@
            ========================================== */
         @media (max-width: 768px) {
             body {
-                padding: 1rem 0; /* Giảm padding tổng thể */
+                padding: 1rem 0; 
             }
             .card-custom {
-                border-radius: 16px; /* Bo góc nhỏ hơn trên điện thoại */
+                border-radius: 16px; 
                 margin: 0 10px;
             }
             .card-header-custom {
@@ -135,20 +135,33 @@
         }
 
         @media (max-width: 576px) {
-            /* Kỹ thuật xếp chồng cột cho bảng trên điện thoại siêu nhỏ */
+            /* Thiết lập Flexbox cho bảng để có thể chia cột trên điện thoại */
             .table-responsive {
                 border: none;
+                overflow: visible;
             }
             .table-custom {
                 box-shadow: none;
             }
+            .table-custom tbody {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
             .table-custom tbody tr {
                 display: block;
+                width: 100%;
                 margin-bottom: 0.5rem;
                 border: 1px solid #e9ecef;
                 border-radius: 12px;
-                padding: 0.5rem;
+                padding: 0.6rem;
             }
+            
+            /* Class đặc biệt để chia đôi màn hình cho Dân tộc & Giới tính */
+            .table-custom tbody tr.half-col {
+                width: calc(50% - 0.25rem); /* Trừ đi khoảng cách nhỏ ở giữa */
+            }
+
             .table-custom th {
                 display: block;
                 width: 100% !important;
@@ -165,7 +178,6 @@
                 padding-top: 0.25rem;
                 font-size: 1.05rem;
             }
-            /* Ẩn bớt các đường viền bên trong khi đã xếp chồng */
             .table-custom tr:last-child {
                 border-bottom: 1px solid #e9ecef;
             }
@@ -185,9 +197,9 @@
                 </div>
                 <div class="card-body p-4 p-md-5">
                     <div class="mb-4">
-                        <label class="form-label fw-bold text-secondary mb-2 ms-2">Nhập đầy đủ Số báo danh rồi bấm Tra cứu (SBD):</label>
+                        <label class="form-label fw-bold text-secondary mb-2 ms-2">Nhập Số Báo Danh (SBD):</label>
                         <div class="input-group">
-                            <input type="text" class="form-control input-custom" id="inputSBD" placeholder="Ví dụ: 120031, 321201..." onkeypress="if(event.key === 'Enter') traCuu()">
+                            <input type="text" class="form-control input-custom" id="inputSBD" placeholder="Ví dụ: 001, 012..." onkeypress="if(event.key === 'Enter') traCuu()">
                         </div>
                     </div>
                     
@@ -279,8 +291,11 @@
                                     <tr><th style="width: 35%;"><i class="bi bi-hash me-2 text-muted"></i>Thứ tự</th><td><span class="badge rounded-pill bg-success px-3 py-2">${thuTu} / ${tongSo}</span></td></tr>
                                     <tr><th><i class="bi bi-person-badge me-2 text-muted"></i>Họ tên thí sinh</th><td class="fw-bold text-success fs-5">${hs['Họ tên thí sinh'] || ''}</td></tr>
                                     <tr><th><i class="bi bi-calendar-event me-2 text-muted"></i>Ngày sinh</th><td>${hs['Ngày tháng năm sinh'] || ''}</td></tr>
-                                    <tr><th><i class="bi bi-people me-2 text-muted"></i>Dân tộc</th><td>${hs['Dân tộc'] || ''}</td></tr>
-                                    <tr><th><i class="bi bi-gender-ambiguous me-2 text-muted"></i>Giới tính</th><td>${hs['Giới tính'] || ''}</td></tr>
+                                    
+                                    <!-- Cặp thẻ được gán class half-col để đứng cạnh nhau trên mobile -->
+                                    <tr class="half-col"><th><i class="bi bi-people me-2 text-muted"></i>Dân tộc</th><td>${hs['Dân tộc'] || ''}</td></tr>
+                                    <tr class="half-col"><th><i class="bi bi-gender-ambiguous me-2 text-muted"></i>Giới tính</th><td>${hs['Giới tính'] || ''}</td></tr>
+                                    
                                     <tr><th><i class="bi bi-building me-2 text-muted"></i>Trường THCS</th><td>${hs['Trường THCS'] || ''}</td></tr>
                                     <tr><th><i class="bi bi-geo-alt me-2 text-muted"></i>Địa chỉ</th><td>${hs['Địa chỉ thường trú'] || ''}</td></tr>
                                 </tbody>
