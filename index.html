@@ -339,4 +339,27 @@
                 const hs = dataKhongTrungTuyen[failIndex];
                 ketQuaDiv.innerHTML = `
                     <div class="alert alert-warning result-alert text-center fade-in-up">
-                        <i class="bi bi-info-circle-fill fs-1 d-block mb-2 text
+                        <i class="bi bi-info-circle-fill fs-1 d-block mb-2 text-warning"></i>
+                        <h5 class="mb-2 fw-bold">Rất tiếc, bạn không trúng tuyển trong đợt này.</h5>
+                        <p class="mb-0 text-dark">Họ tên thí sinh: <span class="fw-bold fs-5">${hs['Họ tên thí sinh'] || ''}</span></p>
+                    </div>`;
+                btnTraCuu.disabled = false;
+                return;
+            }
+
+            ketQuaDiv.innerHTML = `
+                <div class="alert alert-danger result-alert text-center fade-in-up">
+                    <i class="bi bi-x-circle-fill fs-2 d-block mb-2 text-danger"></i>
+                    <strong class="d-block mb-1">Không tìm thấy Số báo danh!</strong>
+                    <span class="small">Vui lòng kiểm tra lại SBD hoặc liên hệ với nhà trường.</span>
+                </div>`;
+
+        } catch (error) {
+            ketQuaDiv.innerHTML = `<div class="alert alert-danger result-alert fade-in-up"><i class="bi bi-wifi-off me-2"></i> Lỗi kết nối mạng hoặc dữ liệu chưa sẵn sàng.</div>`;
+        }
+        
+        btnTraCuu.disabled = false;
+    }
+</script>
+</body>
+</html>
