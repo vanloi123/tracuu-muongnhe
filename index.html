@@ -5,31 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tra cứu tuyển sinh - PTDTNT THPT Mường Nhé</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-</head>
-<body class="bg-light">
+    
+    <style>
+        /* Tùy chỉnh CSS hiện đại */
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        
+        .card-custom {
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            overflow: hidden;
+            background: #ffffff;
+        }
 
-<div class="container mt-5">
+        .card-header-custom {
+            background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%);
+            border-bottom: none;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .input-custom {
+            border-radius: 50px;
+            padding: 16px 25px;
+            border: 2px solid #e9ecef;
+            box-shadow: none !important;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-custom:focus {
+            border-color: #3cba92;
+            box-shadow: 0 0 0 0.25rem rgba(60, 186, 146, 0.25) !important;
+        }
+
+        .btn-custom {
+            border-radius: 50px;
+            padding: 14px 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(11, 163, 96, 0.3);
+            background: linear-gradient(135deg, #0a8f54 0%, #35a581 100%);
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-custom {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            border: 1px solid #f1f3f5;
+        }
+        
+        .table-custom th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .table-custom td {
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: middle;
+        }
+
+        .result-alert {
+            border-radius: 16px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm border-success">
-                <div class="card-header bg-success text-white text-center py-3">
-                    <h4 class="mb-1 text-uppercase">Hệ thống tra cứu danh sách trúng tuyển</h4>
-                    <h5 class="mb-0">Trường PTDTNT THPT Mường Nhé - Năm học 2026-2027</h5>
+        <div class="col-lg-8 col-md-10">
+            <div class="card card-custom">
+                <div class="card-header card-header-custom text-white text-center">
+                    <i class="bi bi-mortarboard-fill display-4 mb-3 d-block"></i>
+                    <h3 class="mb-2 fw-bold text-uppercase" style="letter-spacing: 1px;">Tra Cứu Trúng Tuyển</h3>
+                    <h6 class="mb-0 fw-normal opacity-75">Trường PTDTNT THPT Mường Nhé &bull; 2026-2027</h6>
                 </div>
-                <div class="card-body p-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nhập Số Báo Danh (SBD) của thí sinh:</label>
-                        <input type="text" class="form-control form-control-lg" id="inputSBD" placeholder="Ví dụ: 001, 123..." onkeypress="if(event.key === 'Enter') traCuu()">
+                <div class="card-body p-4 p-md-5">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary mb-2 ms-2">Nhập Số Báo Danh (SBD):</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-custom" id="inputSBD" placeholder="Ví dụ: 001, 012..." onkeypress="if(event.key === 'Enter') traCuu()">
+                        </div>
                     </div>
-                    <button onclick="traCuu()" class="btn btn-primary btn-lg w-100 fw-bold" id="btnTraCuu">
-                        Tra Cứu Kết Quả
+                    
+                    <button onclick="traCuu()" class="btn btn-primary btn-custom w-100 fs-5 text-white" id="btnTraCuu">
+                        <i class="bi bi-search me-2"></i> Tra Cứu Kết Quả
                     </button>
 
                     <div id="ketQua" class="mt-4"></div>
                 </div>
-                <div class="card-footer text-center text-muted small">
-                    Dữ liệu được cập nhật trực tiếp từ Ban tuyển sinh nhà trường
+                <div class="card-footer bg-white border-0 text-center pb-4 pt-0">
+                    <small class="text-muted"><i class="bi bi-shield-check me-1 text-success"></i> Dữ liệu chính thức từ Ban Tuyển sinh nhà trường</small>
                 </div>
             </div>
         </div>
@@ -38,9 +133,7 @@
 
 <script>
     // ========================================================
-    // CHỈ CẦN THAY ĐỔI DÒNG NÀY: Dán ID Bảng tính Google của bạn vào đây
-    // ========================================================
-    // CHỈ CẦN THAY ĐỔI DÒNG NÀY:
+    // MÃ BẢNG TÍNH GOOGLE SHEETS CỦA CÔ NGÂN
     const GOOGLE_SHEET_ID = '1rG-q3y4utwTLaIFUZ6q-vXuf51Oo48tdCNIbQil0oyE';
     // ========================================================
 
@@ -56,7 +149,7 @@
                     resolve(results.data);
                 },
                 error: function(error) {
-                    resolve([]); // Trả về rỗng nếu có lỗi (ví dụ trang tính chưa có chữ nào)
+                    resolve([]);
                 }
             });
         });
@@ -68,17 +161,16 @@
         const btnTraCuu = document.getElementById("btnTraCuu");
 
         if (!sbd) {
-            ketQuaDiv.innerHTML = `<div class="alert alert-danger">Vui lòng nhập Số báo danh!</div>`;
-            return;
-        }
-
-        if (GOOGLE_SHEET_ID === 'DÁN_ID_BẢNG_TÍNH_CỦA_BẠN_VÀO_ĐÂY') {
-            ketQuaDiv.innerHTML = `<div class="alert alert-danger">Hệ thống chưa được kết nối với Google Sheets. Xin vui lòng liên hệ Admin.</div>`;
+            ketQuaDiv.innerHTML = `<div class="alert alert-danger result-alert fade-in-up"><i class="bi bi-exclamation-triangle-fill me-2"></i> Vui lòng nhập Số báo danh!</div>`;
             return;
         }
 
         // Hiển thị trạng thái đang tải
-        ketQuaDiv.innerHTML = `<div class="text-center text-primary"><div class="spinner-border" role="status"></div><p class="mt-2">Đang tìm dữ liệu, vui lòng chờ...</p></div>`;
+        ketQuaDiv.innerHTML = `
+            <div class="text-center text-success fade-in-up my-4">
+                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                <span class="fw-medium">Đang trích xuất dữ liệu, vui lòng chờ...</span>
+            </div>`;
         btnTraCuu.disabled = true;
 
         try {
@@ -93,26 +185,31 @@
             
             if (index !== -1) {
                 const hs = dataTrungTuyen[index];
-                // Tính tổng số lượng trúng tuyển (bỏ qua các dòng trống)
                 const tongSo = dataTrungTuyen.filter(item => item['SBD']).length;
                 const thuTu = index + 1;
 
                 ketQuaDiv.innerHTML = `
-                    <div class="alert alert-success text-center shadow-sm">
-                        <h5 class="fw-bold mb-0 text-uppercase">Chúc mừng bạn trúng tuyển</h5>
-                        <p class="mb-0 mt-1">Trường PTDTNT THPT Mường Nhé - Năm học 2026-2027</p>
-                    </div>
-                    <table class="table table-bordered mt-3 bg-white">
-                        <tbody>
-                            <tr><th style="width: 40%;" class="bg-light">Thứ tự</th><td><span class="badge bg-success fs-6">${thuTu} / ${tongSo}</span></td></tr>
-                            <tr><th class="bg-light">Họ tên thí sinh</th><td class="fw-bold text-primary fs-5">${hs['Họ tên thí sinh'] || ''}</td></tr>
-                            <tr><th class="bg-light">Ngày tháng năm sinh</th><td>${hs['Ngày tháng năm sinh'] || ''}</td></tr>
-                            <tr><th class="bg-light">Dân tộc</th><td>${hs['Dân tộc'] || ''}</td></tr>
-                            <tr><th class="bg-light">Giới tính</th><td>${hs['Giới tính'] || ''}</td></tr>
-                            <tr><th class="bg-light">Trường THCS</th><td>${hs['Trường THCS'] || ''}</td></tr>
-                            <tr><th class="bg-light">Địa chỉ thường trú</th><td>${hs['Địa chỉ thường trú'] || ''}</td></tr>
-                        </tbody>
-                    </table>`;
+                    <div class="fade-in-up">
+                        <div class="alert alert-success result-alert text-center mb-4">
+                            <i class="bi bi-check-circle-fill display-5 d-block mb-2 text-success"></i>
+                            <h5 class="fw-bold mb-1 text-uppercase text-success">Chúc mừng bạn đã trúng tuyển!</h5>
+                            <p class="mb-0 small text-success opacity-75">Năm học 2026-2027</p>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-custom bg-white mb-0">
+                                <tbody>
+                                    <tr><th style="width: 40%;"><i class="bi bi-hash me-2 text-muted"></i>Thứ tự</th><td><span class="badge rounded-pill bg-success px-3 py-2">${thuTu} / ${tongSo}</span></td></tr>
+                                    <tr><th><i class="bi bi-person-badge me-2 text-muted"></i>Họ tên thí sinh</th><td class="fw-bold text-success fs-5">${hs['Họ tên thí sinh'] || ''}</td></tr>
+                                    <tr><th><i class="bi bi-calendar-event me-2 text-muted"></i>Ngày sinh</th><td>${hs['Ngày tháng năm sinh'] || ''}</td></tr>
+                                    <tr><th><i class="bi bi-people me-2 text-muted"></i>Dân tộc</th><td>${hs['Dân tộc'] || ''}</td></tr>
+                                    <tr><th><i class="bi bi-gender-ambiguous me-2 text-muted"></i>Giới tính</th><td>${hs['Giới tính'] || ''}</td></tr>
+                                    <tr><th><i class="bi bi-building me-2 text-muted"></i>Trường THCS</th><td>${hs['Trường THCS'] || ''}</td></tr>
+                                    <tr><th><i class="bi bi-geo-alt me-2 text-muted"></i>Địa chỉ</th><td>${hs['Địa chỉ thường trú'] || ''}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>`;
                 btnTraCuu.disabled = false;
                 return;
             }
@@ -123,19 +220,25 @@
             if (failIndex !== -1) {
                 const hs = dataKhongTrungTuyen[failIndex];
                 ketQuaDiv.innerHTML = `
-                    <div class="alert alert-warning text-center shadow-sm">
-                        <h5 class="mb-0">Rất tiếc, bạn không trúng tuyển trong kỳ thi này.</h5>
-                        <p class="mt-2 mb-0">Họ tên: <strong>${hs['Họ tên thí sinh'] || ''}</strong></p>
+                    <div class="alert alert-warning result-alert text-center fade-in-up">
+                        <i class="bi bi-info-circle-fill fs-1 d-block mb-2 text-warning"></i>
+                        <h5 class="mb-2 fw-bold">Rất tiếc, bạn không trúng tuyển trong đợt này.</h5>
+                        <p class="mb-0 text-dark">Họ tên thí sinh: <span class="fw-bold fs-5">${hs['Họ tên thí sinh'] || ''}</span></p>
                     </div>`;
                 btnTraCuu.disabled = false;
                 return;
             }
 
             // Không tìm thấy
-            ketQuaDiv.innerHTML = `<div class="alert alert-danger">Không tìm thấy Số báo danh này trong hệ thống. Vui lòng kiểm tra lại!</div>`;
+            ketQuaDiv.innerHTML = `
+                <div class="alert alert-danger result-alert text-center fade-in-up">
+                    <i class="bi bi-x-circle-fill fs-2 d-block mb-2 text-danger"></i>
+                    <strong class="d-block mb-1">Không tìm thấy Số báo danh!</strong>
+                    <span class="small">Vui lòng kiểm tra lại SBD hoặc liên hệ với nhà trường.</span>
+                </div>`;
 
         } catch (error) {
-            ketQuaDiv.innerHTML = `<div class="alert alert-danger">Lỗi kết nối mạng hoặc dữ liệu chưa được công khai.</div>`;
+            ketQuaDiv.innerHTML = `<div class="alert alert-danger result-alert fade-in-up"><i class="bi bi-wifi-off me-2"></i> Lỗi kết nối mạng hoặc dữ liệu chưa sẵn sàng.</div>`;
         }
         
         btnTraCuu.disabled = false;
