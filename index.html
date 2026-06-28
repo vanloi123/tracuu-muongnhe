@@ -39,11 +39,13 @@
 <script>
     // ========================================================
     // CHỈ CẦN THAY ĐỔI DÒNG NÀY: Dán ID Bảng tính Google của bạn vào đây
-    const GOOGLE_SHEET_ID = 'DÁN_ID_BẢNG_TÍNH_CỦA_BẠN_VÀO_ĐÂY';
+    // ========================================================
+    // CHỈ CẦN THAY ĐỔI DÒNG NÀY:
+    const GOOGLE_SHEET_ID = '1rG-q3y4utwTLaIFUZ6q-vXuf51Oo48tdCNIbQil0oyE';
     // ========================================================
 
-    const URL_TRUNG_TUYEN = `https://docs.google.com/spreadsheets/d/${1rG-q3y4utwTLaIFUZ6q-vXuf51Oo48tdCNIbQil0oyE}/gviz/tq?tqx=out:csv&sheet=TrungTuyen`;
-    const URL_KHONG_TRUNG_TUYEN = `https://docs.google.com/spreadsheets/d/${1rG-q3y4utwTLaIFUZ6q-vXuf51Oo48tdCNIbQil0oyE}/gviz/tq?tqx=out:csv&sheet=KhongTrungTuyen`;
+    const URL_TRUNG_TUYEN = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=TrungTuyen`;
+    const URL_KHONG_TRUNG_TUYEN = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=KhongTrungTuyen`;
 
     async function layDuLieuTuGoogleSheet(url) {
         return new Promise((resolve, reject) => {
