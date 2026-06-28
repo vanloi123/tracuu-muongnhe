@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tra cứu tuyển sinh - PTDTNT THPT Mường Nhé</title>
-    <!-- Giao diện Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Thư viện Icon Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Thư viện Font chữ Be Vietnam Pro -->
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Thư viện đọc file CSV từ Google Sheets -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
     <style>
@@ -108,6 +104,24 @@
             border: none;
         }
 
+        /* Hiệu ứng và màu sắc cho danh hiệu Thủ khoa / Á khoa */
+        .badge-thukhoa {
+            background: linear-gradient(45deg, #F1C40F, #F39C12);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(241, 196, 15, 0.5);
+            animation: pulse-gold 2s infinite;
+        }
+        .badge-akhoa {
+            background: linear-gradient(45deg, #BDC3C7, #95A5A6);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(189, 195, 199, 0.4);
+        }
+        @keyframes pulse-gold {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* ==========================================
            CSS TỐI ƯU CHO GIAO DIỆN DI ĐỘNG (MOBILE)
            ========================================== */
@@ -186,6 +200,11 @@
             .table-custom tr:last-child {
                 border-bottom: 1px solid #e9ecef;
             }
+            /* Đảm bảo huy hiệu không bị xuống dòng xấu trên điện thoại */
+            .badge-thukhoa, .badge-akhoa {
+                display: inline-block;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
@@ -196,7 +215,6 @@
         <div class="col-lg-8 col-md-10 p-0">
             <div class="card card-custom">
                 <div class="card-header card-header-custom text-white text-center">
-                    <!-- Đã đổi biểu tượng mũ thành Logo Trường từ Google Drive -->
                     <img src="logo.png" alt="Logo Trường PTDTNT THPT Mường Nhé" class="school-logo mb-3 d-block mx-auto">
                     <h3 class="mb-2 fw-bold text-uppercase" style="letter-spacing: 1px;">Tra Cứu Trúng Tuyển</h3>
                     <h6 class="mb-0 fw-normal opacity-75">Trường PTDTNT THPT Mường Nhé &bull; 2026-2027</h6>
@@ -279,6 +297,14 @@
                 const tongSo = dataTrungTuyen.filter(item => item['SBD']).length;
                 const thuTu = index + 1;
 
+                // LOGIC KIỂM TRA DANH HIỆU THỦ KHOA / Á KHOA
+                let htmlDanhHieu = "";
+                if (thuTu === 1) {
+                    htmlDanhHieu = `<span class="badge rounded-pill badge-thukhoa px-3 py-2 ms-2"><i class="bi bi-trophy-fill me-1"></i>Thủ khoa</span>`;
+                } else if (thuTu === 2 || thuTu === 3) {
+                    htmlDanhHieu = `<span class="badge rounded-pill badge-akhoa px-3 py-2 ms-2"><i class="bi bi-award-fill me-1"></i>Á khoa</span>`;
+                }
+
                 ketQuaDiv.innerHTML = `
                     <div class="fade-in-up">
                         <div class="alert alert-success result-alert text-center mb-4">
@@ -290,7 +316,7 @@
                         <div class="table-responsive">
                             <table class="table table-custom bg-white mb-0">
                                 <tbody>
-                                    <tr><th style="width: 35%;"><i class="bi bi-hash me-2 text-muted"></i>Thứ tự</th><td><span class="badge rounded-pill bg-success px-3 py-2">${thuTu} / ${tongSo}</span></td></tr>
+                                    <tr><th style="width: 35%;"><i class="bi bi-hash me-2 text-muted"></i>Thứ tự</th><td><span class="badge rounded-pill bg-success px-3 py-2">${thuTu} / ${tongSo}</span>${htmlDanhHieu}</td></tr>
                                     <tr><th><i class="bi bi-person-badge me-2 text-muted"></i>Họ tên thí sinh</th><td class="fw-bold text-success fs-5">${hs['Họ tên thí sinh'] || ''}</td></tr>
                                     <tr><th><i class="bi bi-calendar-event me-2 text-muted"></i>Ngày sinh</th><td>${hs['Ngày tháng năm sinh'] || ''}</td></tr>
                                     
@@ -313,27 +339,4 @@
                 const hs = dataKhongTrungTuyen[failIndex];
                 ketQuaDiv.innerHTML = `
                     <div class="alert alert-warning result-alert text-center fade-in-up">
-                        <i class="bi bi-info-circle-fill fs-1 d-block mb-2 text-warning"></i>
-                        <h5 class="mb-2 fw-bold">Rất tiếc, bạn không trúng tuyển trong đợt này.</h5>
-                        <p class="mb-0 text-dark">Họ tên thí sinh: <span class="fw-bold fs-5">${hs['Họ tên thí sinh'] || ''}</span></p>
-                    </div>`;
-                btnTraCuu.disabled = false;
-                return;
-            }
-
-            ketQuaDiv.innerHTML = `
-                <div class="alert alert-danger result-alert text-center fade-in-up">
-                    <i class="bi bi-x-circle-fill fs-2 d-block mb-2 text-danger"></i>
-                    <strong class="d-block mb-1">Không tìm thấy Số báo danh!</strong>
-                    <span class="small">Vui lòng kiểm tra lại SBD hoặc liên hệ với nhà trường.</span>
-                </div>`;
-
-        } catch (error) {
-            ketQuaDiv.innerHTML = `<div class="alert alert-danger result-alert fade-in-up"><i class="bi bi-wifi-off me-2"></i> Lỗi kết nối mạng hoặc dữ liệu chưa sẵn sàng.</div>`;
-        }
-        
-        btnTraCuu.disabled = false;
-    }
-</script>
-</body>
-</html>
+                        <i class="bi bi-info-circle-fill fs-1 d-block mb-2 text
